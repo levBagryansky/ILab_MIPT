@@ -11,6 +11,7 @@ int solveSQW(double a, double b, double c, double* x1, double* x2);
 int solveLN(double b, double c, double* x1, double* x2);   // bx + c = 0
 double findDiscr(double a, double b, double c);
 int choseFunction(double a, double b, double c, double* x1, double* x2);
+void WriteAnswer(int nRoots, double x1, double x2);
 
 
 int solveSQW(double a, double b, double c, double* x1, double* x2)
@@ -59,6 +60,7 @@ int solveLN(double b, double c, double* x1, double* x2)
     }
 }
 
+
 double findDiscr(double a, double b, double c)
 {
     double discriminant = b*b - 4*a*c;
@@ -79,5 +81,23 @@ int choseFunction(double a, double b, double c, double* x1, double* x2)
         return nRoots;
     }
 }
+
+
+void writeAnswer(int nRoots, double x1, double x2)
+{
+    switch(nRoots){
+        case 0:  printf("There is not any roots \n");
+                break;
+
+        case 1:  printf("x = %lg \n", x1);
+                break;
+
+        case 2:  printf("x1 = %lg and x2 = %lg \n", x1, x2);
+                break;
+        case INFINIT_ROOT: printf("There is infinite roots");
+                break;
+    }
+}
+
 
 

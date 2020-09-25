@@ -2,13 +2,13 @@
 #pragma once
 
 const int INFINIT_ROOT = -1;
-const double PREC
+const double PRECISION = 0.0001;
 
 
 
 
 int solveSQW(double a, double b, double c, double* x1, double* x2);
-int solveLN(double b, double c, double* x1, double* x2); // bx + c = 0
+int solveLN(double b, double c, double* x1, double* x2);   // bx + c = 0
 double findDiscr(double a, double b, double c);
 int choseFunction(double a, double b, double c, double* x1, double* x2);
 
@@ -17,19 +17,19 @@ int solveSQW(double a, double b, double c, double* x1, double* x2)
 {
     double d = findDiscr(a, b, c);
 
-    if(d < 0)                      // 0 roots
+    if(d < 0 + PRECISION)                                  // 0 roots
     {
         return 0;
     }
 
-    else if(d == 0)               // 1 root because d == 0
+    else if(d > 0 - PRECISION &&  d < 0 + PRECISION)       // 1 root because d == 0
     {
         *x1 = -b / (2*a);
         *x2 = *x1;
         return 1;
     }
 
-    else                         // 2 roots
+    else                                                   // 2 roots
     {
         *x1 = (-b - sqrt(d))/2;
         *x2 = (-b + sqrt(d))/2;
