@@ -18,18 +18,18 @@ void sort_matrix(int** matrix, int left, int right);
 
 int main()
 {
-    // считываем файл, весь текст записываем в одномерный массив
+    // read the file, write all the text into a one-dimensional array
     int size_file;
     int count_Strings;
     int* arr = read_file ("poem.txt", &size_file, &count_Strings);
 
-    // массив представляем в виде матрицы
+    // the array is represented as a matrix
     int** matrix = transform_to_matrix(arr, &size_file, &count_Strings);
 
-    // сортируем матрицу
+    // sort the matrix
     sort_matrix(matrix, 0, count_Strings - 1);
 
-    // печатаем
+    // print
     print_matrix(matrix, count_Strings, max_len);
 
     return 0;
@@ -37,18 +37,18 @@ int main()
 
 int* read_file (char name_file[], int* size_file, int* count_Strings)
 {
-    // открываем файл
+    // open file
     FILE *fp;
     if ((fp = fopen(name_file, "r"))==NULL) {
         printf("Cannot open file.\n");
     }
     assert(fp != NULL);
 
-    // находим количество символов
+    // find the number of characters
     struct stat st;
     stat(name_file , &st);
     *size_file = st.st_size;
-    // создаем и заполняем массив
+    // create and fill an array
     int* text_arr = (int*) calloc (*size_file, sizeof(int));
     *count_Strings = 0;
     int next_char;
@@ -133,7 +133,7 @@ void swap (int** matrix, int num1, int num2, int len)
 }
 
 
-void sort_matrix(int** matrix, int left, int right)  // сортировка Хоара для матрицы
+void sort_matrix(int** matrix, int left, int right)  // Hoare sort for matrix
 {
        int left_buf = left; int right_buf = right;
        int* support = matrix[left];
