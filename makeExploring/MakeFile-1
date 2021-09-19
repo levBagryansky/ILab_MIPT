@@ -1,0 +1,2 @@
+all:
+	g++ main.cpp hello.cpp factorials.cpp -o hello
