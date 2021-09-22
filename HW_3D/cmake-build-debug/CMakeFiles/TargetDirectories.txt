@@ -1,0 +1,3 @@
+/home/tardis3/ILab_MIPT/HW_3D/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/tardis3/ILab_MIPT/HW_3D/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/tardis3/ILab_MIPT/HW_3D/cmake-build-debug/CMakeFiles/HW_3D.dir
