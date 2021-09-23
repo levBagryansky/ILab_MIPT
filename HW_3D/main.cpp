@@ -1,7 +1,9 @@
 #include <iostream>
+#include <vector>
+#include <math.h>
 
 struct Point{
-    double xyz[3];
+    std::vector<double> xyz;
 };
 
 class Triangle{
@@ -26,6 +28,7 @@ Triangle::Triangle(Point A, Point B, Point C) {
 
 std::istream& operator>> (std::istream& is, Triangle& t){
     for (int i = 0; i < 3; ++i) {
+        t.ABC[i].xyz = std::vector<double>(3);
         for (int j = 0; j < 3; ++j) {
             is >> t.ABC[i].xyz[j];
         }
@@ -35,31 +38,135 @@ std::istream& operator>> (std::istream& is, Triangle& t){
 
 std::ostream& operator<< (std::ostream& os,const Triangle& t){
     for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
+        os << '(';
+        for (int j = 0; j < 2; ++j) {
             os << t.ABC[i].xyz[j] << ' ';
         }
+        os << t.ABC[i].xyz[2] << ") ";
     }
     return os;
 }
 
-bool areCross(const Triangle t1, const Triangle t2){
-    ;
+void printMatrix (std::vector<std::vector<double>>&m){
+    std::cout << "Matrix is:" << std::endl;
+
+    for (int i = 0; i < m.size(); ++i) {
+        for (int j = 0; j < m[0].size(); ++j) {
+            std::cout << m[i][j] << ' ';
+        }
+        std::cout << std::endl;
+    }
 }
 
-double computeDet(int m[3][3]){
-    return m[0][0] * m[1][1] * m[2][2] +
-           m[0][1] * m[1][2] * m[2][0] +
-           m[0][2] * m[1][0] * m[2][1] -
-           m[2][0] * m[1][1] * m[0][2] -
-           m[1][0] * m[0][1] * m[2][2] -
-           m[0][0] * m[2][1] * m[1][2];
+std::vector<std::vector<double>> getUnderMartix (const std::vector<std::vector<double>>&m,
+                                                 int i, int j){
+    std::vector<std::vector<double>> m_i_j(m);
+    m_i_j.erase(m_i_j.begin() + i);
+    for (int k = 0; k < m.size() - 1; ++k)
+        m_i_j[k].erase(m_i_j[k].begin() + j);
+
+    return m_i_j;
 }
 
-void reverseMatrix()
+double computeDet(const std::vector<std::vector<double>>& m){
+    if(m.size() == 1)
+        return m[0][0];
+    if (m.size() == 2)
+        return m[0][0]*m[1][1] - m[0][1]*m[1][0];
+    if (m.size() == 3)
+        return m[0][0] * m[1][1] * m[2][2] +
+               m[0][1] * m[1][2] * m[2][0] +
+               m[0][2] * m[1][0] * m[2][1] -
+               m[2][0] * m[1][1] * m[0][2] -
+               m[1][0] * m[0][1] * m[2][2] -
+               m[0][0] * m[2][1] * m[1][2];
+
+    else{
+        double det = 0;
+        for (int j = 0; j < m.size(); ++j) {
+            std::vector<std::vector<double>> m_i_j =
+                    getUnderMartix(m, 0, j);
+
+            det += (m[0][j] * computeDet(m_i_j) * pow(-1, j));
+        }
+
+        return det;
+    }
+}
+
+std::vector<std::vector<double>> reverseMatrix(
+const std::vector<std::vector<double>>& m){
+    std::vector<std::vector<double>> result(m.size(),
+                std::vector<double> (m.size())); //создание вектора 3x3
+
+    double det = computeDet(m);
+
+    if(det == 0)
+        exit(1);
+
+    for (int j = 0; j < m.size(); ++j) {
+        for (int i = 0; i < m.size(); ++i) {
+            result[i][j] = computeDet(getUnderMartix(m, j, i));
+            result[i][j] *= pow(-1, i + j);
+            result[i][j] /= det;
+        }
+    }
+
+    return result;
+}
+
+void changeCS(Triangle& t1, std::vector<double> deltaArr){
+    for (Point& point: t1.ABC) {
+        int i = 0;
+        for(double& coordinate: point.xyz) {
+            coordinate -= deltaArr[i];
+            i++;
+        }
+    }
+}
+
+bool areCross(const Triangle& t1, const Triangle& t2){
+    Triangle mod_t1(t1);
+    Triangle mod_t2(t2);
+
+    std::vector<double> deltaArr = t1.ABC[0].xyz;
+    changeCS(mod_t1, deltaArr);
+    changeCS(mod_t2, deltaArr);
+
+
+}
 
 int main() {
     //std::cout << "Hello, World!" << std::endl;
-    Triangle t;
-    std::cout << "Tringle is: " << t <<std::endl;
+    /*Triangle t;
+    //std::cout << "Tringle is: " << t <<std::endl;
+
+    std::vector<std::vector<double>> m1 = {{1, 4, 4, 4},
+                                          {1, 6, 7, 8},
+                                          {1, 5, 9, 10},
+                                          {1, 2, 2, 2}};
+
+
+    std::vector<std::vector<double>> m2 = {{-1, 2, 3},
+                                           {2, -1, -2},
+                                           {-2, 5, 4}};
+
+    printMatrix(m2);
+    std::cout << "Det = " << computeDet(m2) << std::endl;
+
+    std::vector<std::vector<double>> revers = reverseMatrix(m2);
+    printMatrix(revers); */
+
+    Triangle t1, t2;
+    std::cin >> t1 >> t2;
+    Triangle mod_t1(t1);
+    Triangle mod_t2(t2);
+
+    std::vector<double> deltaArr = t1.ABC[0].xyz;
+    changeCS(mod_t1, deltaArr);
+    changeCS(mod_t2, deltaArr);
+
+    std::cout << "mod_t1: " << mod_t1 << std::endl <<
+    "mod_t2: " << mod_t2;
     return 0;
 }
