@@ -193,8 +193,16 @@ bool areCross(const Triangle& t1, const Triangle& t2){
         p = m * p;
     }
 
-    std::cout << mod_t1 << std::endl;
-    std::cout << mod_t2 << std::endl;
+    if (mod_t2.ABC[0].xyz[2] > 0 &&
+        mod_t2.ABC[1].xyz[2] > 0 &&
+        mod_t2.ABC[2].xyz[2] > 0)
+        return false;
+
+    if (mod_t2.ABC[0].xyz[2] < 0 &&
+        mod_t2.ABC[1].xyz[2] < 0 &&
+        mod_t2.ABC[2].xyz[2] < 0)
+        return false;
+
 
     return true;
 }
