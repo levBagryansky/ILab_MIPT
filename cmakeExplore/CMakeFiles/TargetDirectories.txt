@@ -1,7 +1,0 @@
-/home/tardis3/ILab_MIPT/cmakeExplore/CMakeFiles/install/strip.dir
-/home/tardis3/ILab_MIPT/cmakeExplore/CMakeFiles/install/local.dir
-/home/tardis3/ILab_MIPT/cmakeExplore/CMakeFiles/edit_cache.dir
-/home/tardis3/ILab_MIPT/cmakeExplore/CMakeFiles/install.dir
-/home/tardis3/ILab_MIPT/cmakeExplore/CMakeFiles/list_install_components.dir
-/home/tardis3/ILab_MIPT/cmakeExplore/CMakeFiles/rebuild_cache.dir
-/home/tardis3/ILab_MIPT/cmakeExplore/CMakeFiles/cmakeExplore.dir
