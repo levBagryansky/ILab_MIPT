@@ -9,4 +9,8 @@
 /home/tardis3/ILab_MIPT/HW_3D/main.cpp
 iostream
 -
+vector
+-
+math.h
+-
 
